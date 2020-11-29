@@ -2,11 +2,10 @@
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <head>
-  <link rel="stylesheet" type="text/css" href="../static/styles/register.css">
 </head>
 
 <body>
-  <form>  
+<form>
     <!--
   <label>
     <p class="label-txt">ENTER YOUR EMAIL</p>
@@ -17,20 +16,61 @@
   </label>
 -->
     <label>
-      <p class="label-txt">ENTER YOUR ID</p>
-      <input type="text" class="input">
-      <div class="line-box">
-        <div class="line"></div>
-      </div>
+        <p class="label-txt">ENTER YOUR ID</p>
+        <input type="email" id="email-input">
+        <div class="line-box">
+            <div class="line"></div>
+        </div>
     </label>
     <label>
-      <p class="label-txt">ENTER YOUR PASSWORD</p>
-      <input type="password" class="input">
-      <div class="line-box">
-        <div class="line"></div>
-      </div>
+        <p class="label-txt">ENTER YOUR PASSWORD</p>
+        <input type="password" id="password-input">
+        <div class="line-box">
+            <div class="line"></div>
+        </div>
     </label>
-    <button type="submit">submit</button>
-  </form>
-  <script type="text/javascript" src="register.js"></script>
+    <br>
+    <div id="message"></div>
+    <input id="submit" type="submit">submit</input>
+</form>
+
+
+<script type="text/javascript" defer>
+    const emailInput = document.getElementById("email-input");
+    const passwordInput = document.getElementById("password-input");
+    const submitBtn = document.getElementById("submit");
+    const messageBox = document.getElementById("message");
+
+    emailInput.addEventListener("input", async ev => {
+        ev.preventDefault();
+        const inputEmail = emailInput.value;
+        const response = await fetch(`http://127.0.0.1:8080/validation?email=${inputEmail}`)
+        const data = await response.json();
+        console.log(data)
+        messageBox.innerText = data.message;
+
+    });
+
+    submitBtn.addEventListener("click", async ev => {
+        ev.preventDefault()
+        const registerInfo = {
+            email: emailInput.value,
+            password: passwordInput.value
+        };
+        fetch("http://127.0.0.1:8080/registration",
+            {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(registerInfo),
+            })
+            .then(async response => {
+                const res = await response.json();
+                if (res)
+                    window.location.href = "/";
+            })
+            .catch(error => console.log(error));
+    });
+</script>
 </body>
