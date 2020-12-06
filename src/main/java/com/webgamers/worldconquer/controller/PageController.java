@@ -20,4 +20,14 @@ public class PageController {
     public String register() {
         return "register";
     }
+
+    @GetMapping("list")
+    public String list() {
+        return "board/list";
+    }
+
+    @GetMapping("post")
+    public String post() {
+        return "board/post";
+    }
 }
