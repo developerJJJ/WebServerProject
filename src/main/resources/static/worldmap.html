@@ -129,7 +129,7 @@
         const area4Date = document.getElementById("area4-date");
 
         async function loadData() {
-            const response = await fetch("http://127.0.0.1:8080/api/game/info");
+            const response = await fetch("https://worldconquer.herokuapp.com/api/game/info");
             const resData = await response.json();
             console.log(resData);
 
@@ -154,7 +154,7 @@
 
         async function loadHistory() {
             const historyList = document.getElementById("history-list");
-            const response = await fetch("http://127.0.0.1:8080/api/game/history");
+            const response = await fetch("https://worldconquer.herokuapp.com/api/game/history");
             const resData = await response.json();
 
             let output = '';

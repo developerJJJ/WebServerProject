@@ -44,7 +44,7 @@
         let output = '';
 
         async function loadData() {
-            const response = await fetch("http://127.0.0.1:8080/api/posts",
+            const response = await fetch("https://worldconquer.herokuapp.com/api/posts",
                 {
                     headers: {
                         'Authorization': `${localStorage.getItem('token')}`

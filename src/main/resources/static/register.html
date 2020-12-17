@@ -37,7 +37,7 @@
     usernameInput.addEventListener("input", async ev => {
         ev.preventDefault();
         const inputEmail = emailInput.value;
-        const response = await fetch(`http://127.0.0.1:8080/validation?email=${inputEmail}`)
+        const response = await fetch(`https://worldconquer.herokuapp.com:8080/validation?email=${inputEmail}`)
         const data = await response.json();
         console.log(data)
         messageBox.innerText = data.message;
@@ -49,7 +49,7 @@
             username: usernameInput.value,
             password: passwordInput.value
         };
-        fetch("http://127.0.0.1:8080/registration",
+        fetch("https://worldconquer.herokuapp.com/registration",
             {
                 method: "POST",
                 headers: {

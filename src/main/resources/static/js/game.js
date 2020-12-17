@@ -90,7 +90,7 @@ var loseGame = async function () {
     const queryParse = window.location.search.split("=");
     const area = queryParse[queryParse.length - 1];
 
-    const response = await fetch(`http://127.0.0.1:8080/api/game?area=${area}&point=${Game.points}`, {
+    const response = await fetch(`https://worldconquer.herokuapp.com/api/game?area=${area}&point=${Game.points}`, {
         headers: {
             "Authorization": `${localStorage.getItem("token")}`
         }

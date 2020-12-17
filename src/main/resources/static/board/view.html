@@ -27,7 +27,7 @@
     async function loadData() {
         const queryParse = window.location.search.split("=");
         const postId = queryParse[queryParse.length - 1];
-        const response = await fetch(`http://localhost:8080/api/post/${postId}`, {
+        const response = await fetch(`https://worldconquer.herokuapp.com/api/post/${postId}`, {
             headers: {
                 "Authorization": `${localStorage.getItem("token")}`
             }
@@ -64,7 +64,7 @@
     }
 
     async function deletePost() {
-        await fetch(`http://localhost:8080/api/post/${await getId()}`,
+        await fetch(`https://worldconquer.herokuapp.com/api/post/${await getId()}`,
             {
                 method: 'DELETE',
                 headers: {
