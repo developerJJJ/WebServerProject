@@ -1,0 +1,68 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<head>
+    <link rel="stylesheet" href="/styles/register.css">
+</head>
+
+<body>
+<form>
+    <label>
+        <p class="label-txt">ENTER YOUR ID
+        </p>
+        <input type="text" id="username-input">
+        <div class="line-box">
+            <div class="line"></div>
+        </div>
+    </label>
+    <label>
+        <p class="label-txt">ENTER YOUR PASSWORD</p>
+        <br>
+        <input type="password" id="password-input">
+        <div class="line-box">
+            <div class="line"></div>
+        </div>
+    </label>
+
+    <div id="message"></div>
+    <input id="submit" type="submit"></input>
+</form>
+
+<script type="text/javascript" defer>
+    const usernameInput = document.getElementById("username-input");
+    const passwordInput = document.getElementById("password-input");
+    const submitBtn = document.getElementById("submit");
+    const messageBox = document.getElementById("message");
+
+    usernameInput.addEventListener("input", async ev => {
+        ev.preventDefault();
+        const inputEmail = emailInput.value;
+        const response = await fetch(`http://127.0.0.1:8080/validation?email=${inputEmail}`)
+        const data = await response.json();
+        console.log(data)
+        messageBox.innerText = data.message;
+    });
+
+    submitBtn.addEventListener("click", async ev => {
+        ev.preventDefault()
+        const registerInfo = {
+            username: usernameInput.value,
+            password: passwordInput.value
+        };
+        fetch("http://127.0.0.1:8080/registration",
+            {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(registerInfo),
+            })
+            .then(async response => {
+                const res = await response.json();
+                if (res)
+                    window.location.href = "/";
+            })
+            .catch(error => console.log(error));
+    });
+</script>
+</body>

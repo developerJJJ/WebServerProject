@@ -8,12 +8,11 @@ import javax.validation.constraints.Email;
 @Getter
 @NoArgsConstructor
 public class LoginFormRequest {
-    @Email
-    private String email;
+    private String username;
     private String password;
 
-    public LoginFormRequest(@Email String email, String password) {
-        this.email = email;
+    public LoginFormRequest(@Email String username, String password) {
+        this.username = username;
         this.password = password;
     }
 }

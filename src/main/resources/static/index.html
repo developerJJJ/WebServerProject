@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>home</title>
+    <link rel="stylesheet" href="/styles/cascade.css">
+</head>
+
+<body>
+<header>
+    <h1><img src="/images/banner.png" width="50" height="50"/><a href="index.html">
+        World Conquer
+    </a></h1>
+</header>
+<nav>
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="worldmap.html">World map</a></li>
+        <li><a href="./board/list.html">Board</a></li>
+    </ul>
+</nav>
+
+<aside id="left"></aside>
+
+<section id="main">
+</section>
+
+<div id="right">
+    <div id="login">
+        <h4>Log In</h4>
+        <form>
+            <label for="username-input">아이디</label>
+            <input type="text" id="username-input"/><br/>
+            <label for="password-input">비밀번호</label>
+            <input type="password" id="password-input"/><br/>
+            <input type="submit" value="로그인" id="auth-request"/>
+            <input type="reset" value="초기화"/><br/>
+        </form>
+        <a href="register.html" id="register">회원가입</a>
+    </div>
+</div>
+
+<footer>
+    <div class="footerContent">
+        Copyright (c) World Conquer
+    </div>
+</footer>
+
+<script>
+    const usernameInput = document.getElementById("username-input");
+    const passwordInput = document.getElementById("password-input");
+    const submitBtn = document.getElementById("auth-request");
+    const authForm = document.getElementById("right");
+
+    async function render() {
+        if (localStorage.getItem("token") !== null
+            || localStorage.getItem("token") !== undefined
+            || localStorage.getItem("token").toString().startsWith("Bearer")) {
+
+            const response = await fetch("http://localhost:8080/user/me",
+                {
+                    headers: {
+                        "Authorization": `${localStorage.getItem("token")}`
+                    }
+                }
+            );
+
+            console.log('response:', response);
+            console.log("  ")
+            console.log('status:', response.status);
+
+            if (response.status === 404 || response.status == 401) {
+
+            } else {
+                while (authForm.hasChildNodes()) {
+                    authForm.removeChild(authForm.firstChild);
+                }
+
+                const {id, username} = await response.json();
+                authForm.innerHTML = `
+                <div>
+                    ${id}
+                    <br>
+                    ${username}
+                    <button onclick="logout()">로그아웃</button>
+                </div>
+            `
+            }
+        }
+    }
+
+    render();
+
+    async function logout() {
+        localStorage.clear();
+        authForm.innerHTML = `
+        <div id="login">
+        <h4>Log In</h4>
+        <form>
+            <label for="email-input">아이디</label>
+            <input type="text" id="email-input"/><br/>
+            <label for="password-input">비밀번호</label>
+            <input type="password" id="password-input"/><br/>
+            <input type="submit" value="로그인" id="auth-request"/>
+            <input type="reset" value="초기화"/><br/>
+        </form>
+        <a href="register.html" id="register">회원가입</a>
+    </div>
+        `
+    }
+
+    submitBtn.addEventListener("click", async (ev) => {
+        ev.preventDefault();
+        const requestUser = {
+            username: usernameInput.value,
+            password: passwordInput.value
+        };
+        const response = await fetch("http://127.0.0.1:8080/auth/login",
+            {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestUser),
+            });
+
+        const res = await response.json();
+        const {accessToken, tokenType} = res;
+        await localStorage.setItem("token", `${tokenType} ${accessToken}`);
+        if (localStorage.getItem("token").toString().startsWith("Bearer")) {
+            await render();
+        }
+    });
+</script>
+</body>
+
+</html>

@@ -5,7 +5,7 @@ import com.webgamers.worldconquer.user.repository.UserRepository;
 import com.webgamers.worldconquer.user.security.AuthUser;
 import com.webgamers.worldconquer.user.security.Authentication;
 import com.webgamers.worldconquer.user.security.exception.ResourceNotFoundException;
-import com.webgamers.worldconquer.user.security.payload.EmailValidationResponse;
+import com.webgamers.worldconquer.user.security.payload.UsernameValidationResponse;
 import com.webgamers.worldconquer.user.security.payload.SignUpRequest;
 import com.webgamers.worldconquer.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -30,14 +30,14 @@ public class UserController {
 
     @PostMapping(value = "registration", consumes = "application/json")
     public ResponseEntity<Long> registerUser(@RequestBody final SignUpRequest payload) {
-        log.info("email {}", payload.getEmail());
+        log.info("email {}", payload.getUsername());
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(userService.registerUser(payload));
     }
 
     @GetMapping("validation")
-    public EmailValidationResponse existUserCheck(@RequestParam("email") final String email) {
+    public UsernameValidationResponse existUserCheck(@RequestParam("email") final String email) {
         return userService.existUserCheck(email);
     }
 

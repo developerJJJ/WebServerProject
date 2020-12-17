@@ -12,4 +12,6 @@ public interface PostService {
     Long registerComment(final AuthUser authUser, final CommentRegisterRequestDto payload);
     List<PostResponseMapper> findAllPost();
     PostResponseMapper findPostById(final AuthUser authUser, final Long id);
+
+    void deletePostById(Long id);
 }

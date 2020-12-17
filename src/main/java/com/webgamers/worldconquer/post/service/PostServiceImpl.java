@@ -61,6 +61,11 @@ public class PostServiceImpl implements PostService {
         return PostResponseMapper.of(getPost(id));
     }
 
+    @Override
+    public void deletePostById(Long id) {
+        postRepository.deleteById(id);
+    }
+
     private User getUser(final Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", id));

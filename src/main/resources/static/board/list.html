@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시판 목록</title>
+    <link rel='stylesheet' href='/webjars/bootstrap/4.5.0/css/bootstrap.min.css'>
+</head>
+
+<body>
+    <header th:fragment="header">
+        <div class="navbar navbar-dark bg-primary shadow-sm mb-3" >
+            <div class="container d-flex justify-content-center">
+                <a href="list.html" class="navbar-brand d-flex align-items-center">
+                    <b>게 시 판</b>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <table class="table">
+            <thead class="thead-dark">
+            <tr class="text-center">
+                <th scope="col">#</th>
+                <th scope="col">제목</th>
+                <th scope="col">작성시간</th>
+                <th scope="col">작성자</th>
+            </tr>
+            </thead>
+            <tbody id="tbody">
+
+            </tbody>
+        </table>
+        <div class="row">
+            <div class="col-auto mr-auto"></div>
+            <div class="col-auto">
+                <a class="btn btn-primary" href="/board/post-register.html" role="button">글쓰기</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const tableBody = document.getElementById("tbody");
+        let output = '';
+
+        async function loadData() {
+            const response = await fetch("http://127.0.0.1:8080/api/posts",
+                {
+                    headers: {
+                        'Authorization': `${localStorage.getItem('token')}`
+                    },
+                });
+
+            const posts = await response.json();
+            console.log('posts: ', posts);
+
+            let i = 1;
+            for (const post of await posts) {
+                output += `
+                <tr class="text-center">
+                    <th scope="row">
+                        <span>${i++}</span>
+                    </th>
+                     <td id="title">
+                        <a href="/board/view.html?postId=${post.id}">${post.title}</a>
+                    </td>
+                    <td>
+                       <span>${post.date}</span>
+                    </td>
+                    <td>
+                        <span>${post.writer}</span>
+                    </td>
+                </tr>
+                `
+            }
+
+            tableBody.innerHTML = output;
+        }
+
+        loadData();
+    </script>
+
+    <script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</body>
+</html>

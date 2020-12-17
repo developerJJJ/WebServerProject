@@ -15,20 +15,20 @@ import java.util.Map;
 @Getter
 public class AuthUser implements UserDetails {
     private final Long id;
-    private final String email;
+    private final String username;
     private final String password;
     private final Collection<? extends GrantedAuthority> authorities;
     private final Map<String, Object> attributes;
 
     @Builder
     public AuthUser(final Long id,
-                    final String email,
+                    final String username,
                     final String password,
                     final Collection<? extends GrantedAuthority> authorities,
                     final Map<String, Object> attributes) {
 
         this.id = id;
-        this.email = email;
+        this.username = username;
         this.password = password;
         this.authorities = authorities;
         this.attributes = attributes;
@@ -40,7 +40,7 @@ public class AuthUser implements UserDetails {
 
         return AuthUser.builder()
                 .id(user.getId())
-                .email(user.getEmail())
+                .username(user.getUsername())
                 .password(user.getPassword())
                 .authorities(authorities)
                 .build();
@@ -54,7 +54,7 @@ public class AuthUser implements UserDetails {
     private AuthUser withAttribute(final Map<String, Object> attributes) {
         return AuthUser.builder()
                 .id(id)
-                .email(email)
+                .username(username)
                 .password(password)
                 .authorities(authorities)
                 .attributes(attributes)
@@ -68,7 +68,7 @@ public class AuthUser implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return username;
     }
 
     @Override

@@ -1,36 +1,34 @@
 package com.webgamers.worldconquer.user.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.webgamers.worldconquer.shared.BaseTimeEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 
 @Getter
 @NoArgsConstructor
 @Entity
 @Table(name = "users", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "email")
+        @UniqueConstraint(columnNames = "username")
 })
 public class User extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long id;
 
-    @Email
     @Column(nullable = false)
-    private String email;
+    private String username;
 
-    @JsonIgnore
+    @Column(columnDefinition = "TEXT")
     private String password;
 
     @Builder
-    public User(Long id, @Email String email, String password) {
+    public User(Long id,  String username, String password) {
         this.id = id;
-        this.email = email;
+        this.username = username;
         this.password = password;
     }
 }

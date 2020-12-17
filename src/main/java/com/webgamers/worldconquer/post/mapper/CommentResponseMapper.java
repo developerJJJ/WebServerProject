@@ -32,7 +32,7 @@ public class CommentResponseMapper {
                 .id(comment.getId())
                 .comment(comment.getComment())
                 .date(comment.getCreatedAt().toString())
-                .writer(comment.getUser().getEmail())
+                .writer(comment.getUser().getUsername())
                 .build();
     }
 }

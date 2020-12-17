@@ -12,17 +12,17 @@ import javax.validation.constraints.NotNull;
 @Getter
 @NoArgsConstructor
 public class SignUpRequest {
-    private String email;
+    private String username;
     private String password;
 
-    public SignUpRequest(@Email @NotNull String email, @NotNull String password) {
-        this.email = email;
+    public SignUpRequest(@Email @NotNull String username, @NotNull String password) {
+        this.username = username;
         this.password = password;
     }
 
     public User toUserEntity() {
         return User.builder()
-                .email(email)
+                .username(username)
                 .password(password)
                 .build();
     }

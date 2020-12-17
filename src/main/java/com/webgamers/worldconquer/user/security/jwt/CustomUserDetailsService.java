@@ -21,7 +21,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Transactional
     public UserDetails loadUserByUsername(final String email) throws UsernameNotFoundException {
         return AuthUser.create(
-                userRepository.findByEmail(email)
+                userRepository.findByUsername(email)
                         .orElseThrow(() -> new UsernameNotFoundException("User not found with email : " + email))
         );
 

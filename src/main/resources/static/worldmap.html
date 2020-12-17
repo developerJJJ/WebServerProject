@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href='http://fonts.googleapis.com/css?family=Bangers' rel='stylesheet' type='text/css'>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>world map</title>
+    <meta content="" name="descriptison">
+    <meta content="" name="keywords">
+
+    <!-- Google Fonts -->
+    <link href="/index_files/css" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="/index_files/bootstrap.min.css" rel="stylesheet">
+    <link href="/index_files/font-awesome.min.css" rel="stylesheet">
+    <link href="/index_files/modal-video.min.css" rel="stylesheet">
+    <link href="/index_files/owl.carousel.min.css" rel="stylesheet">
+    <link href="/index_files/aos.css" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="/index_files/style.css" rel="stylesheet">
+
+    <style>
+        div.divTableCell {
+            max-width: 300px;
+            min-width: 300px;
+        }
+    </style>
+
+</head>
+
+<body data-aos-easing="ease" data-aos-duration="1000" data-aos-delay="0">
+
+<!-- ======= Header ======= -->
+<header id="header" class="header">
+    <div class="container">
+
+        <div id="logo" class="pull-left">
+            <h1><a href="index.html"><span>W</span>orld Conquer</a></h1>
+            <!-- Uncomment below if you prefer to use an image logo -->
+        </div>
+
+    </div>
+</header>
+<!-- End Header -->
+
+<section id="map">
+    <div class="map-container aos-init aos-animate" data-aos="fade-in">
+        <div>
+            <h1>WORLD MAP</h1>
+        </div>
+        <div class="divTable blueTable">
+            <div class="divTableBody">
+                <div class="divTableRow">
+                    <div class="divTableCell">지역1
+                        <div id="area1-winner"></div>
+                        <div id="area1-point"></div>
+                        <div id="area1-date"></div>
+
+                        <button onclick="location.href=`game.html?$area=1`">GO</button>
+                    </div>
+                    <div class="divTableCell">지역2
+                        <div id="area2-winner"></div>
+                        <div id="area2-point"></div>
+                        <div id="area2-date"></div>
+
+                        <button onclick="location.href=`game.html?$area=2`">GO</button>
+                    </div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell">지역3
+                        <div id="area3-winner"></div>
+                        <div id="area3-point"></div>
+                        <div id="area3-date"></div>
+
+                        <button onclick="location.href=`game.html?$area=3`">GO</button>
+                    </div>
+                    <div class="divTableCell">지역4
+                        <div id="area4-winner"></div>
+                        <div id="area4-point"></div>
+                        <div id="area4-date"></div>
+
+                        <button onclick="location.href=`game.html?$area=4`">GO</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section>
+    <ul id="history-list"></ul>
+
+</section>
+<main id="main">
+    <!-- ======= Get Started Section ======= -->
+    <section id="get-started" class="padd-section text-center">
+    </section><!-- End Get Started Section -->
+
+    <!-- Vendor JS Files -->
+    <script src="/index_files/jquery.min.js"></script>
+    <script src="/index_files/bootstrap.bundle.min.js"></script>
+    <script src="/index_files/jquery.easing.min.js"></script>
+    <script src="/index_files/validate.js"></script>
+    <script src="/index_files/modal-video.min.js"></script>
+    <script src="/index_files/owl.carousel.min.js"></script>
+    <script src="/index_files/superfish.min.js"></script>
+    <script src="/index_files/hoverIntent.js"></script>
+    <script src="/index_files/aos.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="/index_files/main.js"></script>
+    <script>
+        const area1Winner = document.getElementById("area1-winner");
+        const area2Winner = document.getElementById("area2-winner");
+        const area3Winner = document.getElementById("area3-winner");
+        const area4Winner = document.getElementById("area4-winner");
+
+        const area1Point = document.getElementById("area1-point");
+        const area2Point = document.getElementById("area2-point");
+        const area3Point = document.getElementById("area3-point");
+        const area4Point = document.getElementById("area4-point");
+
+        const area1Date = document.getElementById("area1-date");
+        const area2Date = document.getElementById("area2-date");
+        const area3Date = document.getElementById("area3-date");
+        const area4Date = document.getElementById("area4-date");
+
+        async function loadData() {
+            const response = await fetch("http://127.0.0.1:8080/api/game/info");
+            const resData = await response.json();
+            console.log(resData);
+
+            area1Winner.innerText = resData.area1Winner === undefined ? "" :`점령자: ${resData.area1Winner}`;
+            area1Point.innerText = resData.area1Point === undefined ? "" : resData.area1Point;
+            area1Date.innerTest = resData.area1Date === undefined ? "" : resData.area1Date;
+
+            area2Winner.innerText = resData.area2Winner === undefined ? "" : `점령자: ${resData.area2Winner}`;
+            area2Point.innerText = resData.area2Point  === undefined ? "" : resData.area2Point;
+            area2Date.innerTest = resData.area2Date === undefined ? "" : resData.area2Date;
+
+            area3Winner.innerText = resData.area3Winner === undefined ? "" : `점령자: ${resData.area3Winner}`;
+            area3Point.innerText = resData.area3Point  === undefined ? "" : resData.area3Point;
+            area3Date.innerTest = resData.area3Date === undefined ? "" : resData.area3Date;
+
+            area4Winner.innerText = resData.area4Winner === undefined ? "" : `점령자: ${resData.area4Winner}`;
+            area4Point.innerText = resData.area4Point  === undefined ? "" : resData.area4Point;
+            area4Date.innerTest = resData.area4Date === undefined ? "" : resData.area4Date;
+        }
+
+        loadData();
+
+        async function loadHistory() {
+            const historyList = document.getElementById("history-list");
+            const response = await fetch("http://127.0.0.1:8080/api/game/history");
+            const resData = await response.json();
+
+            let output = '';
+            for (const history of await resData) {
+                const {id, username ,createdAt} = history;
+                output += `
+                    <li>user: ${username} createdAt: ${createdAt}</li>
+                `
+            }
+
+            historyList.innerHTML = output;
+        }
+
+        loadHistory();
+    </script>
+</main>
+</body>
+</html>

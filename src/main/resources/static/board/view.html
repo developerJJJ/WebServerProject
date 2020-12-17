@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel='stylesheet' href='/webjars/bootstrap/4.5.0/css/bootstrap.min.css'>
+</head>
+
+<body>
+<header th:fragment="header">
+    <div class="navbar navbar-dark bg-primary shadow-sm mb-3">
+        <div class="container d-flex justify-content-center">
+            <a href="list.html" class="navbar-brand d-flex align-items-center">
+                <b>게 시 판</b>
+            </a>
+        </div>
+    </div>
+</header>
+
+<div id="container">
+
+</div>
+<script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
+<script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script>
+    const container = document.getElementById("container");
+
+    async function loadData() {
+        const queryParse = window.location.search.split("=");
+        const postId = queryParse[queryParse.length - 1];
+        const response = await fetch(`http://localhost:8080/api/post/${postId}`, {
+            headers: {
+                "Authorization": `${localStorage.getItem("token")}`
+            }
+        });
+        const {id, title, content, writer, date, comments} = await response.json();
+
+        const output = `
+            <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">${title}</h5>
+                <p class="card-text">작성자 : ${writer}</p>
+                <p class="card-text"><small class="text-muted">posting date${date}</small></p>
+                <p class="card-text">${content}</p>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-auto mr-auto"></div>
+            <div class="col-auto">
+               <button id="delete-btn" type="submit" class="btn btn-danger" onclick="deletePost()">삭제</button>
+            </div>
+        </div>
+        `
+
+        container.innerHTML = output;
+    }
+
+
+
+    loadData();
+
+    async function getId() {
+        const queryParse = window.location.search.split("=");
+        return queryParse[queryParse.length - 1];
+    }
+
+    async function deletePost() {
+        await fetch(`http://localhost:8080/api/post/${await getId()}`,
+            {
+                method: 'DELETE',
+                headers: {
+                    "Authorization": `${localStorage.getItem("token")}`
+                }
+            }).then(response => {
+            window.location.href = '/board/list.html';
+        });
+
+    }
+
+</script>
+</body>
+</html>
